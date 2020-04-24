@@ -10,7 +10,7 @@ sessionsRouter.post('/', async (request, response) => {
 
     const autheticateUser = new AuthenticateUserService();
 
-    const { user } = await autheticateUser.execute({
+    const { user, token } = await autheticateUser.execute({
       email,
       password
     });
@@ -18,7 +18,7 @@ sessionsRouter.post('/', async (request, response) => {
     //excluir o campo de password, não é recomendado retornar para usuário
     delete user.password;
 
-    return response.json({ user });
+    return response.json({ user, token });
 
   } catch (err) {
     return response.status(400).json({ error: err.message })
