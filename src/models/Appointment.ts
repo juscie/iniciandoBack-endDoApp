@@ -8,7 +8,7 @@ import {
   JoinColumn
 } from 'typeorm';
 
-import User from './user';
+import User from './User';
 
 //KISS - "Kep It Simple & Stupid" o seu código
 
