@@ -1,28 +1,26 @@
 import { Router, request } from 'express';
 
+import AppError from '../errors/AppError';
+
 import AuthenticateUserService from '../services/AuthenticateUserService';
 
 const sessionsRouter = Router();
 
 sessionsRouter.post('/', async (request, response) => {
-  try {
-    const { email, password } = request.body;
+  const { email, password } = request.body;
 
-    const autheticateUser = new AuthenticateUserService();
+  const autheticateUser = new AuthenticateUserService();
 
-    const { user, token } = await autheticateUser.execute({
-      email,
-      password
-    });
+  const { user, token } = await autheticateUser.execute({
+    email,
+    password
+  });
 
-    //excluir o campo de password, não é recomendado retornar para usuário
-    delete user.password;
+  //excluir o campo de password, não é recomendado retornar para usuário
+  delete user.password;
 
-    return response.json({ user, token });
+  return response.json({ user, token });
 
-  } catch (err) {
-    return response.status(400).json({ error: err.message })
-  }
 });
 
 export default sessionsRouter;

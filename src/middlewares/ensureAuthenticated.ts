@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
 import { compare } from 'bcryptjs';
+
+import AppError from '../errors/AppError';
 import authConfig from '../config/auth';
 
 
@@ -22,7 +24,7 @@ export default function ensureAuthenticated(request: Request, response: Response
 
   // se o token não exisitr no header. authorization, dispara um error
   if (!authHeader) {
-    throw new Error('JWT token is missing');
+    throw new AppError('JWT token is missing', 401);
   }
 
   //o token do type "Bearer" e "token", separ o Bearer do token
@@ -50,7 +52,7 @@ export default function ensureAuthenticated(request: Request, response: Response
     return next();
 
   } catch (err) {
-    throw new Error('Invalid JWT token'); //disparar msg de erro no formato desejado, personalizada
+    throw new AppError('Invalid JWT token', 401); //disparar msg de erro no formato desejado, personalizada
   }
 
 

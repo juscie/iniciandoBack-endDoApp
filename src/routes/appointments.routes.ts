@@ -35,24 +35,22 @@ appointmentsRouter.get('/', async (request, response) => {
 
 //aplicar middleware em rota especifica é adicionar no paramentro do método
 appointmentsRouter.post('/', async (request, response) => {
-  try {
-    const { provider_id, date } = request.body;
 
-    //const parsedDate = startOfHour(parseISO(date));
-    //separar o código a cima
-    const parsedDate = parseISO(date);
+  const { provider_id, date } = request.body;
 
-    const createAppointment = new CreateAppointmentService();
+  //const parsedDate = startOfHour(parseISO(date));
+  //separar o código a cima
+  const parsedDate = parseISO(date);
 
-    const appointment = await createAppointment.execute({
-      date: parsedDate,
-      provider_id,
-    });
+  const createAppointment = new CreateAppointmentService();
 
-    return response.json(appointment);
-  } catch (err) {
-    return response.status(400).json({ error: err.message })
-  }
+  const appointment = await createAppointment.execute({
+    date: parsedDate,
+    provider_id,
+  });
+
+  return response.json(appointment);
+
 });
 
 export default appointmentsRouter;
